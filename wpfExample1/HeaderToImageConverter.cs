@@ -14,30 +14,25 @@ namespace wpfExample1
     /// <summary>
     /// Converts a full path to a specific image type of a drive,folder or file
     /// </summary>
-    [ValueConversion(typeof(string),typeof(BitmapImage))]
+    [ValueConversion(typeof(DirectoryItemType),typeof(BitmapImage))]
     public class HeaderToImageConverter : IValueConverter
     {
         public static HeaderToImageConverter Instance = new HeaderToImageConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var path = value.ToString();
-
-            if (path == null) return null;
-
-            var name = MainWindow.GetFileFolderName(path);
-
+        {           
             //默认是文件图标 当为底层磁盘 | 文件夹的时候 则变更图标
             var image = "Images/file.png";
 
-            if (string.IsNullOrEmpty(name))
-                image = "Images/drive.png";
-            else if (new FileInfo(path).Attributes.HasFlag(FileAttributes.Directory))
-                image = "Images/folder.png";
+            switch((DirectoryItemType)value)
+            {
+                case DirectoryItemType.Drive: image = "Images/drive.png";break;
+                case DirectoryItemType.Folder: image = "Images/folder.png";break;
+            }
+            
+            var pathinfo = Environment.CurrentDirectory + "../../../" + image;
 
-            var pathinfo = Environment.CurrentDirectory + "../../../"+image;
-
-            return new BitmapImage(new Uri(pathinfo));//$"pack://application:,,,/Images/drive.png"
+            return new BitmapImage(new Uri(pathinfo));//$"pack://application:,,,/Images/drive.png"r           
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

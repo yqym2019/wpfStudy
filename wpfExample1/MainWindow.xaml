@@ -6,44 +6,38 @@
         xmlns:local="clr-namespace:wpfExample1"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="MainWindow" Height="700" Width="525" Loaded="Window_Loaded" >
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
-        </Grid.RowDefinitions>
-        <!-- 改变上下文样式 -->
-        <TreeView x:Name="tvwFolder" Grid.Row="0">
-            <TreeView.Resources>
-                <Style TargetType="{x:Type TreeViewItem}">
-                    <!--设置树头属性 -->
-                    <Setter Property="HeaderTemplate">
-                        <Setter.Value>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <!-- 设置 树头 图标绑定来源 和 转换器 -->
-                                    <Image Width="40" 
-                                           Source="{Binding 
-                                             RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TreeViewItem}},
-                                             Path=Tag,
+        Title="MainWindow" Height="700" Width="525" >
+    <StackPanel>
+        <!--<Button Content="{Binding Test}"/>-->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <!-- 改变上下文样式 -->
+            <TreeView x:Name="tvwFolder" Grid.Row="0" ItemsSource="{Binding Items}" >
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <!--设置属性 -->
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal">
+                            <!-- 设置 树头 图标绑定来源 和 转换器 -->
+                            <Image Width="40" 
+                                           Source="{Binding Type,                                          
                                              Converter={x:Static local:HeaderToImageConverter.Instance}
                                             }"/>
-                                    <!-- 绑定 header 内容 到 TextBlock 上-->
-                                    <TextBlock  Text="{Binding}" HorizontalAlignment="Center"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </Setter.Value>
-                    </Setter>                    
-                </Style>
-            </TreeView.Resources>            
-        </TreeView>
-        <Button
-        Style="{StaticResource MaterialDesignFloatingActionButton}"
-        ToolTip="MaterialDesignFloatingActionButton">
-            <materialDesign:PackIcon  Kind="Alarm"
-                Height="40"
-                Width="40" />
-        </Button>
-        
-    </Grid>
+                            <!-- 绑定 header 内容 到 TextBlock 上-->
+                            <TextBlock  Text="{Binding Name}" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Grid>
+    </StackPanel>
+    
 </Window>
