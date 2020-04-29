@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CustomWindowChrome">
+
+    <Color x:Key="BackgroudLight">#efefef</Color>
+    <SolidColorBrush x:Key="BackgroudLightBrush" Color="{StaticResource BackgroudLight}"/>
+
+    <Color x:Key="BackgroudVeryLight">#fafafa</Color>
+    <SolidColorBrush x:Key="BackgroudVeryLightBrush" Color="{StaticResource BackgroudVeryLight}"/>
+
+    <Color x:Key="ForegroudMain">#686868</Color>
+    <SolidColorBrush x:Key="ForegroudMainBrush" Color="{StaticResource ForegroudMain}"/>
+
+    <Color x:Key="ForegroudVeryDark">#000000</Color>
+    <SolidColorBrush x:Key="ForegroudVeryDarkBrush" Color="{StaticResource ForegroudVeryDark}"/>
+
+    <Color x:Key="ForegroudLight">#ffffff</Color>
+    <SolidColorBrush x:Key="ForegroudLightBrush" Color="{StaticResource ForegroudLight}"/>
+</ResourceDictionary>

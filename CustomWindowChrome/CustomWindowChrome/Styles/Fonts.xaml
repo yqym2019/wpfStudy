@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CustomWindowChrome">
+
+    <FontFamily x:Key="Font1">pack://application:,,,,/Fonts/#Arial Rounded MT Bold </FontFamily>
+    <FontFamily x:Key="Font2">pack://application:,,,,/Fonts/#Curlz MT</FontFamily>
+
+    <Style TargetType="{x:Type Control}" x:Key="BaseStyle">
+        <Setter Property="FontFamily" Value="{StaticResource Font1}"/>
+    </Style>
+    
+    <Style TargetType="{x:Type TextBlock}" x:Key="BaseBlockStyle">
+        <Setter Property="FontFamily" Value="{StaticResource Font2}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseStyle}" />
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource BaseStyle}" />
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource BaseStyle}" />
+    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseBlockStyle}" />    
+
+</ResourceDictionary>
