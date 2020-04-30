@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace CustomWindowChrome
 {
@@ -31,6 +33,17 @@ namespace CustomWindowChrome
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// The smallest width the window can go to
+        /// </summary>
+        public double WindowMinimumWidth { get; set; } = 400;
+
+        /// <summary>
+        /// The smallest height the window can go to
+        /// </summary>
+        public double WindowMinimumHeight { get; set; } = 400;
+
         public string Test { get; set; } = "Hello String";
 
         /// <summary>
@@ -41,6 +54,11 @@ namespace CustomWindowChrome
         public Thickness ResizeBorderThickness
         {
             get { return new Thickness(ResizeBorder+OuterMarginSize); }
+        }
+
+        public Thickness InnerContentPadding
+        {
+            get { return new Thickness(ResizeBorder); }
         }
 
         /// <summary>
@@ -82,6 +100,36 @@ namespace CustomWindowChrome
         {
             get { return new CornerRadius(WindowRadius); }
         }
+
+        /// <summary>
+        /// The height of the title bar / caption of the window
+        /// </summary>
+        public int TitleHeight { get; set; } = 42;
+
+        public GridLength TitleHeightGridLength { get { return new GridLength(TitleHeight); } }
+      
+        #endregion
+
+        #region Commands
+        /// <summary>
+        /// The command to minimize the window
+        /// </summary>
+        public ICommand MinimizeCommand { get; set; }
+
+        /// <summary>
+        /// The command to maximize the window
+        /// </summary>
+        public ICommand MaximizeCommand { get; set; }
+
+        /// <summary>
+        /// The command to close the window
+        /// </summary>
+        public ICommand CloseCommand { get; set; }
+
+        /// <summary>
+        /// The command to show the system menu of the window
+        /// </summary>
+        public ICommand MenuCommand { get; set; }
         #endregion
 
         #region Constructor
@@ -102,6 +150,40 @@ namespace CustomWindowChrome
                   OnPropertyChanged(nameof(WindowRadius));
                   OnPropertyChanged(nameof(WindowCornerRadius));
               };
+
+            MinimizeCommand = new RelayCommand(() => mWindows.WindowState = WindowState.Minimized);
+            MaximizeCommand = new RelayCommand(() => mWindows.WindowState = WindowState.Maximized);
+            CloseCommand = new RelayCommand(() => mWindows.Close());
+            MenuCommand = new RelayCommand(() => SystemCommands.ShowSystemMenu(mWindows, GetMousePosition() ));
+        }
+        #endregion
+
+        #region Private Helpers  
+        [DllImport("user32.dll")]
+        internal static extern bool GetCursorPos(ref Win32Point pt);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct Win32Point
+        {
+            public Int32 X;
+            public Int32 Y;
+        };
+
+        /// <summary>
+        /// 获取鼠标当前物理坐标
+        /// </summary>
+        /// <returns></returns>
+        private Point GetMousePosition()
+        {
+            //Win32Point w32Mouse = new Win32Point();
+            //GetCursorPos(ref w32Mouse);
+            //return new Point(w32Mouse.X+mWindows.Left, w32Mouse.Y+mWindows.Top);
+
+            //Position of the mouse relative to the window
+            var pos = Mouse.GetPosition(mWindows);
+
+            //Add the window position so its a "ToScreen"
+            return new Point(pos.X + mWindows.Left, pos.Y + mWindows.Top);
         }
         #endregion
     }

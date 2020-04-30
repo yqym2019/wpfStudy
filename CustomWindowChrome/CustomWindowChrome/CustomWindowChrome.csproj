@@ -115,8 +115,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Fonts\font1.TTF" />
-    <Resource Include="Fonts\font2.TTF" />
+    <Resource Include="Fonts\font1.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\font2.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Fonts\font3.TTF" />
     <Resource Include="Fonts\font4.TTF" />
     <Resource Include="Fonts\font5.TTF" />
